@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { addSource } from '../api'
+import { addSource, getEntities } from '../api'
 import type { NewStatement } from '../types'
 import './forms.css'
 
@@ -10,14 +10,20 @@ export default function AddSource() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<NewStatement[] | null>(null)
+  const [unknown, setUnknown] = useState<string[]>([])
 
   async function submit(e: FormEvent) {
     e.preventDefault()
     setBusy(true)
     setError(null)
     setResult(null)
+    setUnknown([])
     try {
-      setResult(await addSource(label.trim(), text))
+      const added = await addSource(label.trim(), text)
+      setResult(added)
+      const known = new Set((await getEntities()).map((en) => en.name))
+      const mentioned = new Set(added.flatMap((st) => st.referenced_entities))
+      setUnknown([...mentioned].filter((name) => !known.has(name)))
       setText('')
       setLabel('')
     } catch (err) {
@@ -73,6 +79,12 @@ export default function AddSource() {
               </li>
             ))}
           </ul>
+          {unknown.length > 0 && (
+            <p className="notice">
+              Not in the registry yet: {unknown.join(', ')}. <a href="#/entities">Add them</a> so a retired one
+              gets caught later.
+            </p>
+          )}
           <p>
             <a href="#/feed">Open the record</a>
           </p>
