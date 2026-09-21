@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -50,9 +50,8 @@ class EntityIn(BaseModel):
 
 
 @app.post("/sources")
-def add_source(body: SourceIn):
+def add_source(body: SourceIn, client=Depends(get_llm_client)):
     conn = get_conn()
-    client = get_llm_client()
     try:
         statements = orchestrator.add_source(conn, client, body.label, body.raw_text)
     finally:
@@ -132,9 +131,8 @@ def list_entities():
 
 
 @app.get("/ask")
-def ask(q: str):
+def ask(q: str, client=Depends(get_llm_client)):
     conn = get_conn()
-    client = get_llm_client()
     try:
         return orchestrator.ask(conn, client, q)
     finally:

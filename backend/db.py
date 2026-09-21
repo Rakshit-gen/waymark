@@ -6,11 +6,12 @@ open a connection, do work, and close it (or use it as a context manager).
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-DEFAULT_DB_PATH = Path(__file__).parent / "waymark.db"
+DEFAULT_DB_PATH = Path(os.environ.get("WAYMARK_DB", Path(__file__).parent / "waymark.db"))
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS sources (
