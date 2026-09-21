@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { ask } from '../api'
-import type { Answer } from '../types'
+import { ask, getStatements } from '../api'
+import { formatWhen } from './Feed'
+import type { Answer, Statement } from '../types'
 import './forms.css'
 import './ask.css'
 
@@ -10,14 +11,19 @@ export default function Ask() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [answer, setAnswer] = useState<Answer | null>(null)
+  const [cited, setCited] = useState<Statement[]>([])
 
   async function submit(e: FormEvent) {
     e.preventDefault()
     setBusy(true)
     setError(null)
     setAnswer(null)
+    setCited([])
     try {
-      setAnswer(await ask(question.trim()))
+      const result = await ask(question.trim())
+      setAnswer(result)
+      const all = await getStatements()
+      setCited(all.filter((st) => result.cited_ids.includes(st.id)))
     } catch (err) {
       setError((err as Error).message)
     } finally {
@@ -56,6 +62,22 @@ export default function Ask() {
             <p className="contested">This record is contested. Statements it relies on disagree with each other.</p>
           )}
           <p className="answer-text">{answer.answer}</p>
+          {cited.length > 0 && (
+            <>
+              <h2>Sources</h2>
+              <ol className="citations">
+                {cited.map((st) => (
+                  <li key={st.id}>
+                    <span className="meta">
+                      #{st.id}, {formatWhen(st.created_at)}
+                    </span>
+                    <p className="claim">{st.claim}</p>
+                    {st.rationale && <p>{st.rationale}</p>}
+                  </li>
+                ))}
+              </ol>
+            </>
+          )}
         </section>
       )}
     </>
