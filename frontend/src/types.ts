@@ -17,6 +17,7 @@ export interface StalenessFlag {
 export interface Statement {
   id: number
   source_id: number
+  source_label: string
   claim: string
   rationale: string
   referenced_entities: string[]

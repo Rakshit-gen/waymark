@@ -45,8 +45,7 @@ export default function Feed() {
             <p className="claim">{s.claim}</p>
             {s.rationale && <p className="rationale">{s.rationale}</p>}
             <p className="meta">
-              #{s.id} from source {s.source_id}, {formatWhen(s.created_at)}, confidence{' '}
-              {s.confidence.toFixed(2)}
+              #{s.id} from {s.source_label}, {formatWhen(s.created_at)}, confidence {s.confidence.toFixed(2)}
             </p>
             {s.contradictions.map((c) => {
               const other = c.statement_a_id === s.id ? c.statement_b_id : c.statement_a_id
