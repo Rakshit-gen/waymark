@@ -32,7 +32,7 @@ Needs Python 3.10 or newer with SQLite FTS5 and JSON support (standard in curren
     python3 -m venv .venv
     source .venv/bin/activate
     pip install -r backend/requirements.txt
-    export ANTHROPIC_API_KEY=your-key
+    export GROQ_API_KEY=your-key
     python -m uvicorn backend.main:app --port 8000
 
 The database file is created at `backend/waymark.db`. Set `WAYMARK_DB` to put it somewhere else. Without a
@@ -67,7 +67,7 @@ Every agent takes the model client as an argument, and the tests pass a scripted
 `backend/tests/test_orchestrator.py` runs the whole pipeline that way and checks the rows that land in the
 database. `backend/tests/test_api.py` does the same over HTTP.
 
-To try the real model once (costs a few cents):
+To try the real model once (uses your Groq quota):
 
     python scripts/smoke_test.py
 

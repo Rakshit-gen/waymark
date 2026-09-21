@@ -51,7 +51,7 @@ def test_full_flow_through_http(tmp_path, monkeypatch):
 def test_missing_api_key_is_503(tmp_path, monkeypatch):
     client = make_client(tmp_path, monkeypatch, [])
     main.app.dependency_overrides.clear()
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
     assert client.get("/ask", params={"q": "anything"}).status_code == 503
 
 

@@ -1,5 +1,5 @@
 """Runs the real pipeline against the live model API once, on a short
-example. Requires ANTHROPIC_API_KEY to be set. Run from the repo root:
+example. Requires GROQ_API_KEY to be set. Run from the repo root:
 
     python scripts/smoke_test.py
 """
