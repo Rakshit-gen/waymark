@@ -1,0 +1,95 @@
+/* Waymark visual identity: a trail log. Cool survey paper, pine ink, and
+   three painted blaze colors used only where they carry meaning:
+   blue = navigation and action, red = contradiction, yellow = stale. */
+
+:root {
+  --paper: #eceee9;
+  --paper-raised: #f6f7f4;
+  --ink: #1b2420;
+  --ink-soft: #4b5851;
+  --rule: #c7ccc3;
+  --blaze-blue: #24509a;
+  --blaze-red: #b3261e;
+  --blaze-yellow: #d9a400;
+
+  --font-sign: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Literata", Georgia, serif;
+  --font-meta: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --measure: 44rem;
+  --rail: 3.25rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-sign);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2.75rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--blaze-blue);
+  text-underline-offset: 0.18em;
+}
+
+code,
+.meta {
+  font-family: var(--font-meta);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+:focus-visible {
+  outline: 3px solid var(--blaze-blue);
+  outline-offset: 2px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
