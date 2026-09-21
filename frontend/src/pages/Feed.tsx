@@ -14,7 +14,10 @@ function markFor(s: Statement) {
   return ''
 }
 
+type Filter = 'all' | 'contradicted' | 'stale'
+
 export default function Feed() {
+  const [filter, setFilter] = useState<Filter>('all')
   const [statements, setStatements] = useState<Statement[] | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -22,10 +25,28 @@ export default function Feed() {
     getStatements().then(setStatements).catch((e: Error) => setError(e.message))
   }, [])
 
+  const shown = statements?.filter((s) =>
+    filter === 'contradicted' ? s.contradictions.length > 0 : filter === 'stale' ? s.staleness_flags.length > 0 : true,
+  )
+
   return (
     <>
       <h1>The record</h1>
       <p className="page-intro">Every decision pulled out of the sources you have added, newest first.</p>
+
+      <div className="filters" role="group" aria-label="Filter statements">
+        {(['all', 'contradicted', 'stale'] as const).map((f) => (
+          <button
+            key={f}
+            type="button"
+            className="filter"
+            aria-pressed={filter === f}
+            onClick={() => setFilter(f)}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
 
       {error && <p className="notice">Could not load statements: {error}</p>}
       {!error && statements === null && <p className="meta">Loading</p>}
@@ -33,8 +54,12 @@ export default function Feed() {
         <p className="notice">Nothing recorded yet. Add a source and its decisions will show up here.</p>
       )}
 
+      {shown && statements && shown.length === 0 && statements.length > 0 && (
+        <p className="notice">No {filter} statements.</p>
+      )}
+
       <ol className="trail">
-        {statements?.map((s) => (
+        {shown?.map((s) => (
           <li key={s.id} id={`s${s.id}`} className={`entry ${markFor(s)}`}>
             {(s.contradictions.length > 0 || s.staleness_flags.length > 0) && (
               <p className="flags">

@@ -134,3 +134,23 @@
 .note-stale {
   border-left-color: var(--blaze-yellow);
 }
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+button.filter {
+  font-size: 1rem;
+  padding: 0.15rem 0.8rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink-soft);
+}
+
+button.filter[aria-pressed='true'] {
+  color: var(--paper-raised);
+  background: var(--ink);
+  border-color: var(--ink);
+}
