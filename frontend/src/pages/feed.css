@@ -1,0 +1,73 @@
+.notice {
+  max-width: 34rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--ink);
+  background: var(--paper-raised);
+}
+
+/* The feed is a chronological log, so it gets a trail: one vertical line
+   down the left rail and a mark at each entry. */
+.trail {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  position: relative;
+}
+
+.trail::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--rail) / 2 - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--rule);
+}
+
+.entry {
+  position: relative;
+  padding: 0 0 2.25rem calc(var(--rail) + 0.5rem);
+  max-width: calc(var(--measure) + var(--rail));
+}
+
+.entry::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--rail) / 2 - 0.4rem);
+  top: 0.45rem;
+  width: 0.8rem;
+  height: 1.3rem;
+  background: var(--blaze-blue);
+}
+
+.claim {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 0.4rem;
+}
+
+.rationale {
+  margin: 0 0 0.6rem;
+  color: var(--ink);
+}
+
+.entry .meta {
+  margin: 0 0 0.6rem;
+}
+
+.entities {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+}
+
+.entities li {
+  font-family: var(--font-meta);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--ink-soft);
+}

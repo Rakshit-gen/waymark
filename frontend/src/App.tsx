@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Feed from './pages/Feed'
 import './shell.css'
 
 const PAGES = [
@@ -39,7 +40,7 @@ export default function App() {
         </nav>
       </header>
       <main className="page">
-        <p className="meta">{page}</p>
+        {page === 'feed' && <Feed />}
       </main>
     </div>
   )
