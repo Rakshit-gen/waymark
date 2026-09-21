@@ -1,4 +1,4 @@
-"""Thin wrapper around the Anthropic API.
+"""Thin wrapper around the hosted model API.
 
 One method, complete(system, user) -> str, so agents don't touch the SDK
 directly and tests can pass in a fake with the same shape.
@@ -7,11 +7,11 @@ from __future__ import annotations
 
 import os
 
-DEFAULT_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-opus-5")
+MODEL = "claude-opus-5"
 
 
 class LLMClient:
-    def __init__(self, api_key: str | None = None, model: str = DEFAULT_MODEL):
+    def __init__(self, api_key: str | None = None, model: str = MODEL):
         import anthropic  # imported lazily so tests never need the package installed at import time
 
         key = api_key or os.environ.get("ANTHROPIC_API_KEY")
