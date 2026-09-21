@@ -66,3 +66,17 @@
   color: var(--ink-soft);
   margin-top: 0.75rem;
 }
+
+@media (max-width: 34rem) {
+  .shell {
+    padding: 0 1rem 4rem;
+  }
+
+  .signpost {
+    padding-top: 1.25rem;
+  }
+
+  .page {
+    padding-top: 2rem;
+  }
+}
