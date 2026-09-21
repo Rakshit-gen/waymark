@@ -61,7 +61,20 @@ export default function Entities() {
         {entities?.map((en) => (
           <li key={en.id} className={en.status}>
             <span className="entity-name">{en.name}</span>
-            <span className="meta">{en.status}</span>
+            <span className="row-actions">
+              <span className="meta">{en.status}</span>
+              <button
+                type="button"
+                className="small"
+                onClick={() =>
+                  saveEntity(en.name, en.status === 'active' ? 'retired' : 'active')
+                    .then(load)
+                    .catch((e: Error) => setError(e.message))
+                }
+              >
+                {en.status === 'active' ? 'Retire' : 'Reactivate'}
+              </button>
+            </span>
           </li>
         ))}
       </ul>

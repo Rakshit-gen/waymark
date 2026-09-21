@@ -42,3 +42,22 @@
     grid-template-columns: 1fr;
   }
 }
+
+.row-actions {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+button.small {
+  font-size: 0.95rem;
+  padding: 0.15rem 0.7rem;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink);
+}
+
+button.small:hover:not(:disabled) {
+  color: var(--paper-raised);
+  background: var(--ink);
+}
