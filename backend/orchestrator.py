@@ -19,6 +19,9 @@ _staleness_checker = StalenessChecker()
 _synthesizer = Synthesizer()
 
 _WORD_RE = re.compile(r"[A-Za-z0-9]+")
+# Filler words that would match nearly every statement and drown the real terms.
+_FILLER = {"why", "is", "are", "was", "the", "we", "our", "did", "do", "does", "a", "an", "of", "to",
+           "in", "on", "for", "this", "that", "way", "how", "what", "it", "and", "or", "so", "not"}
 
 
 def add_source(conn, client, label: str, raw_text: str) -> list[dict]:
@@ -71,7 +74,7 @@ def add_source(conn, client, label: str, raw_text: str) -> list[dict]:
 
 def _build_fts_query(question: str) -> str | None:
     words = _WORD_RE.findall(question)
-    words = [w for w in words if len(w) >= 2]
+    words = [w for w in words if len(w) >= 2 and w.lower() not in _FILLER]
     if not words:
         return None
     return " OR ".join(f'"{w}"' for w in words)

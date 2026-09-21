@@ -98,3 +98,8 @@ def test_ask_with_no_matches_skips_llm_call():
     client = FakeLLMClient([])
     result = orchestrator.ask(conn, client, "anything at all")
     assert result["cited_ids"] == []
+
+
+def test_search_query_drops_filler_words():
+    assert orchestrator._build_fts_query("Why did we pick Postgres?") == '"pick" OR "Postgres"'
+    assert orchestrator._build_fts_query("why is it so") is None
