@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import AddSource from './pages/AddSource'
 import Ask from './pages/Ask'
+import Entities from './pages/Entities'
 import Feed from './pages/Feed'
 import './shell.css'
 
@@ -45,6 +46,7 @@ export default function App() {
         {page === 'feed' && <Feed />}
         {page === 'add' && <AddSource />}
         {page === 'ask' && <Ask />}
+        {page === 'entities' && <Entities />}
       </main>
     </div>
   )
