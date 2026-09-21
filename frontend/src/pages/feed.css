@@ -71,3 +71,66 @@
   padding: 0.1rem 0.5rem;
   border: 1px solid var(--ink-soft);
 }
+
+/* A painted mark changes color when the entry has a problem. */
+.entry.is-stale::before {
+  background: var(--blaze-yellow);
+}
+
+.entry.is-contradicted::before {
+  background: var(--blaze-red);
+}
+
+.flags {
+  display: flex;
+  gap: 0.75rem;
+  margin: 0 0 0.35rem;
+}
+
+.flag {
+  font-family: var(--font-sign);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.flag::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.9rem;
+}
+
+.flag-contradiction {
+  color: var(--blaze-red);
+}
+
+.flag-contradiction::before {
+  background: var(--blaze-red);
+}
+
+.flag-stale {
+  color: #7a5c00;
+}
+
+.flag-stale::before {
+  background: var(--blaze-yellow);
+}
+
+.note {
+  margin: 0 0 0.6rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.92rem;
+  background: var(--paper-raised);
+  border-left: 4px solid var(--rule);
+}
+
+.note-contradiction {
+  border-left-color: var(--blaze-red);
+}
+
+.note-stale {
+  border-left-color: var(--blaze-yellow);
+}

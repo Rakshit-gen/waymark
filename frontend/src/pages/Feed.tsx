@@ -8,6 +8,12 @@ export function formatWhen(iso: string) {
   return d.toISOString().slice(0, 16).replace('T', ' ') + 'Z'
 }
 
+function markFor(s: Statement) {
+  if (s.contradictions.length > 0) return 'is-contradicted'
+  if (s.staleness_flags.length > 0) return 'is-stale'
+  return ''
+}
+
 export default function Feed() {
   const [statements, setStatements] = useState<Statement[] | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -29,13 +35,32 @@ export default function Feed() {
 
       <ol className="trail">
         {statements?.map((s) => (
-          <li key={s.id} id={`s${s.id}`} className="entry">
+          <li key={s.id} id={`s${s.id}`} className={`entry ${markFor(s)}`}>
+            {(s.contradictions.length > 0 || s.staleness_flags.length > 0) && (
+              <p className="flags">
+                {s.contradictions.length > 0 && <span className="flag flag-contradiction">Contradicted</span>}
+                {s.staleness_flags.length > 0 && <span className="flag flag-stale">Stale</span>}
+              </p>
+            )}
             <p className="claim">{s.claim}</p>
             {s.rationale && <p className="rationale">{s.rationale}</p>}
             <p className="meta">
               #{s.id} from source {s.source_id}, {formatWhen(s.created_at)}, confidence{' '}
               {s.confidence.toFixed(2)}
             </p>
+            {s.contradictions.map((c) => {
+              const other = c.statement_a_id === s.id ? c.statement_b_id : c.statement_a_id
+              return (
+                <p key={c.id} className="note note-contradiction">
+                  Conflicts with <a href={`#s${other}`}>#{other}</a>. {c.explanation}
+                </p>
+              )
+            })}
+            {s.staleness_flags.map((f) => (
+              <p key={f.id} className="note note-stale">
+                {f.reason}.
+              </p>
+            ))}
             {s.referenced_entities.length > 0 && (
               <ul className="entities">
                 {s.referenced_entities.map((e) => (
