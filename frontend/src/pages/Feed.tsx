@@ -48,7 +48,7 @@ export default function Feed() {
         ))}
       </div>
 
-      {error && <p className="notice">Could not load statements: {error}</p>}
+      {error && <p className="notice" role="alert">Could not load statements: {error}</p>}
       {!error && statements === null && <p className="meta">Loading</p>}
       {statements && statements.length === 0 && (
         <p className="notice">Nothing recorded yet. Add a source and its decisions will show up here.</p>

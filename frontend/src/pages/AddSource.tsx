@@ -54,10 +54,14 @@ export default function AddSource() {
         </button>
       </form>
 
-      {error && <p className="notice">{error}</p>}
+      {error && (
+        <p className="notice" role="alert">
+          {error}
+        </p>
+      )}
 
       {result && (
-        <section className="result">
+        <section className="result" aria-live="polite">
           <h2>{result.length === 0 ? 'No decisions found' : `Recorded ${result.length}`}</h2>
           <ul>
             {result.map((s) => (

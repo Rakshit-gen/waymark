@@ -154,3 +154,7 @@ button.filter[aria-pressed='true'] {
   background: var(--ink);
   border-color: var(--ink);
 }
+
+button.filter:hover:not(:disabled) {
+  color: var(--paper-raised);
+}

@@ -52,7 +52,11 @@ export default function Entities() {
         <button type="submit">Save</button>
       </form>
 
-      {error && <p className="notice">{error}</p>}
+      {error && (
+        <p className="notice" role="alert">
+          {error}
+        </p>
+      )}
       {entities && entities.length === 0 && (
         <p className="notice">No entities yet. Add the systems your team runs so retired ones can be caught.</p>
       )}

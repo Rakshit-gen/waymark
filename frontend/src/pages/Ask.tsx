@@ -54,10 +54,14 @@ export default function Ask() {
         </button>
       </form>
 
-      {error && <p className="notice">{error}</p>}
+      {error && (
+        <p className="notice" role="alert">
+          {error}
+        </p>
+      )}
 
       {answer && (
-        <section className="answer">
+        <section className="answer" aria-live="polite">
           {answer.contested && (
             <p className="contested">This record is contested. Statements it relies on disagree with each other.</p>
           )}
