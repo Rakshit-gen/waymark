@@ -142,6 +142,10 @@ def all_statements(conn: sqlite3.Connection) -> list[sqlite3.Row]:
     return conn.execute("SELECT * FROM statements ORDER BY id DESC").fetchall()
 
 
+def get_statement(conn: sqlite3.Connection, statement_id: int) -> sqlite3.Row | None:
+    return conn.execute("SELECT * FROM statements WHERE id = ?", (statement_id,)).fetchone()
+
+
 def all_contradictions(conn: sqlite3.Connection) -> list[sqlite3.Row]:
     return conn.execute("SELECT * FROM contradictions ORDER BY id DESC").fetchall()
 
