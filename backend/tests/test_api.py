@@ -52,3 +52,10 @@ def test_missing_api_key_is_503(tmp_path, monkeypatch):
     main.app.dependency_overrides.clear()
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     assert client.get("/ask", params={"q": "anything"}).status_code == 503
+
+
+def test_unreadable_model_output_is_502(tmp_path, monkeypatch):
+    client = make_client(tmp_path, monkeypatch, ["this is not json"])
+    r = client.post("/sources", json={"label": "a", "raw_text": "text"})
+    assert r.status_code == 502
+    assert "could not read" in r.json()["detail"]

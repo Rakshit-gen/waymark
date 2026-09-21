@@ -56,6 +56,8 @@ def add_source(body: SourceIn, client=Depends(get_llm_client)):
     conn = get_conn()
     try:
         statements = orchestrator.add_source(conn, client, body.label, body.raw_text)
+    except (ValueError, KeyError, TypeError):
+        raise HTTPException(status_code=502, detail="The model returned output Waymark could not read. Try again.")
     finally:
         conn.close()
     return {"statements": statements}
@@ -137,5 +139,7 @@ def ask(q: str, client=Depends(get_llm_client)):
     conn = get_conn()
     try:
         return orchestrator.ask(conn, client, q)
+    except (ValueError, KeyError, TypeError):
+        raise HTTPException(status_code=502, detail="The model returned output Waymark could not read. Try again.")
     finally:
         conn.close()
