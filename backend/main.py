@@ -129,3 +129,13 @@ def list_entities():
         return {"entities": [dict(row) for row in db.all_entities(conn)]}
     finally:
         conn.close()
+
+
+@app.get("/ask")
+def ask(q: str):
+    conn = get_conn()
+    client = get_llm_client()
+    try:
+        return orchestrator.ask(conn, client, q)
+    finally:
+        conn.close()
