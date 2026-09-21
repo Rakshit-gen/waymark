@@ -1,0 +1,23 @@
+.answer {
+  margin-top: 2.5rem;
+  max-width: var(--measure);
+  border-top: 2px solid var(--ink);
+  padding-top: 1.25rem;
+}
+
+.answer-text {
+  font-size: 1.15rem;
+  line-height: 1.65;
+}
+
+.contested {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.9rem;
+  border-left: 6px solid var(--blaze-red);
+  background: var(--paper-raised);
+  font-family: var(--font-sign);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--blaze-red);
+}
