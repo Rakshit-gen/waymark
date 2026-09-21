@@ -3,6 +3,7 @@ backend/orchestrator.py."""
 from __future__ import annotations
 
 import json
+from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +12,15 @@ from pydantic import BaseModel
 from backend import db, orchestrator
 from backend.llm_client import LLMClient
 
-app = FastAPI(title="Waymark")
+@asynccontextmanager
+async def lifespan(_app):
+    conn = db.get_connection()
+    db.init_db(conn)
+    conn.close()
+    yield
+
+
+app = FastAPI(title="Waymark", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,13 +28,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-def on_startup():
-    conn = db.get_connection()
-    db.init_db(conn)
-    conn.close()
 
 
 def get_conn():
