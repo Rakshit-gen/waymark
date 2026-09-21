@@ -159,6 +159,28 @@ def contradictions_for_statement(conn: sqlite3.Connection, statement_id: int) ->
     ).fetchall()
 
 
+def upsert_entity(conn: sqlite3.Connection, name: str, status: str) -> int:
+    if status not in ("active", "retired"):
+        raise ValueError("status must be 'active' or 'retired'")
+    cur = conn.execute(
+        """INSERT INTO entity_registry (name, status) VALUES (?, ?)
+           ON CONFLICT(name) DO UPDATE SET status = excluded.status""",
+        (name, status),
+    )
+    conn.commit()
+    row = conn.execute("SELECT id FROM entity_registry WHERE name = ?", (name,)).fetchone()
+    return row["id"]
+
+
+def all_entities(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    return conn.execute("SELECT * FROM entity_registry ORDER BY name").fetchall()
+
+
+def retired_entity_names(conn: sqlite3.Connection) -> set[str]:
+    rows = conn.execute("SELECT name FROM entity_registry WHERE status = 'retired'").fetchall()
+    return {r["name"] for r in rows}
+
+
 def search_statements(conn: sqlite3.Connection, query: str, limit: int = 8) -> list[sqlite3.Row]:
     rows = conn.execute(
         """SELECT s.* FROM statements s
