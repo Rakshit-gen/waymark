@@ -2,6 +2,8 @@
 backend/orchestrator.py."""
 from __future__ import annotations
 
+import json
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -51,3 +53,53 @@ def add_source(body: SourceIn):
     finally:
         conn.close()
     return {"statements": statements}
+
+
+@app.get("/statements")
+def list_statements():
+    conn = get_conn()
+    try:
+        rows = db.all_statements(conn)
+        result = []
+        for row in rows:
+            result.append(
+                {
+                    "id": row["id"],
+                    "source_id": row["source_id"],
+                    "claim": row["claim"],
+                    "rationale": row["rationale"],
+                    "referenced_entities": json.loads(row["referenced_entities"]),
+                    "confidence": row["confidence"],
+                    "created_at": row["created_at"],
+                    "contradictions": [dict(c) for c in db.contradictions_for_statement(conn, row["id"])],
+                    "staleness_flags": [dict(f) for f in db.staleness_for_statement(conn, row["id"])],
+                }
+            )
+        return {"statements": result}
+    finally:
+        conn.close()
+
+
+@app.get("/contradictions")
+def list_contradictions():
+    conn = get_conn()
+    try:
+        rows = db.all_contradictions(conn)
+        result = []
+        for row in rows:
+            a = db.get_statement(conn, row["statement_a_id"])
+            b = db.get_statement(conn, row["statement_b_id"])
+            result.append(
+                {
+                    "id": row["id"],
+                    "statement_a_id": row["statement_a_id"],
+                    "statement_a_claim": a["claim"] if a else None,
+                    "statement_b_id": row["statement_b_id"],
+                    "statement_b_claim": b["claim"] if b else None,
+                    "explanation": row["explanation"],
+                    "created_at": row["created_at"],
+                }
+            )
+        return {"contradictions": result}
+    finally:
+        conn.close()
