@@ -44,6 +44,11 @@ class SourceIn(BaseModel):
     raw_text: str
 
 
+class EntityIn(BaseModel):
+    name: str
+    status: str
+
+
 @app.post("/sources")
 def add_source(body: SourceIn):
     conn = get_conn()
@@ -101,5 +106,26 @@ def list_contradictions():
                 }
             )
         return {"contradictions": result}
+    finally:
+        conn.close()
+
+
+@app.post("/entities")
+def add_entity(body: EntityIn):
+    if body.status not in ("active", "retired"):
+        raise HTTPException(status_code=400, detail="status must be 'active' or 'retired'")
+    conn = get_conn()
+    try:
+        entity_id = db.upsert_entity(conn, body.name, body.status)
+        return {"id": entity_id, "name": body.name, "status": body.status}
+    finally:
+        conn.close()
+
+
+@app.get("/entities")
+def list_entities():
+    conn = get_conn()
+    try:
+        return {"entities": [dict(row) for row in db.all_entities(conn)]}
     finally:
         conn.close()
