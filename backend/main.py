@@ -74,6 +74,7 @@ def list_statements():
                 {
                     "id": row["id"],
                     "source_id": row["source_id"],
+                    "source_label": row["source_label"],
                     "claim": row["claim"],
                     "rationale": row["rationale"],
                     "referenced_entities": json.loads(row["referenced_entities"]),

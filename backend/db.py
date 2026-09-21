@@ -140,7 +140,10 @@ def insert_staleness_flag(conn: sqlite3.Connection, statement_id: int, entity: s
 
 
 def all_statements(conn: sqlite3.Connection) -> list[sqlite3.Row]:
-    return conn.execute("SELECT * FROM statements ORDER BY id DESC").fetchall()
+    return conn.execute(
+        """SELECT s.*, src.label AS source_label FROM statements s
+           JOIN sources src ON src.id = s.source_id ORDER BY s.id DESC"""
+    ).fetchall()
 
 
 def get_statement(conn: sqlite3.Connection, statement_id: int) -> sqlite3.Row | None:

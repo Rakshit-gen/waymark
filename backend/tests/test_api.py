@@ -38,6 +38,7 @@ def test_full_flow_through_http(tmp_path, monkeypatch):
 
     statements = client.get("/statements").json()["statements"]
     assert [s["id"] for s in statements] == [2, 1]
+    assert statements[0]["source_label"] == "b"
     assert statements[0]["contradictions"] and statements[0]["staleness_flags"]
 
     contradictions = client.get("/contradictions").json()["contradictions"]
