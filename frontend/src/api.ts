@@ -1,4 +1,4 @@
-import type { Answer, Entity, Statement } from './types'
+import type { Answer, Entity, NewStatement, Statement } from './types'
 
 const BASE = import.meta.env.VITE_API_BASE ?? 'http://127.0.0.1:8000'
 
@@ -26,7 +26,7 @@ export const getStatements = () =>
   request<{ statements: Statement[] }>('/statements').then((r) => r.statements)
 
 export const addSource = (label: string, raw_text: string) =>
-  request<{ statements: Statement[] }>('/sources', json({ label, raw_text })).then((r) => r.statements)
+  request<{ statements: NewStatement[] }>('/sources', json({ label, raw_text })).then((r) => r.statements)
 
 export const getEntities = () => request<{ entities: Entity[] }>('/entities').then((r) => r.entities)
 

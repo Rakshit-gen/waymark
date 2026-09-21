@@ -37,3 +37,14 @@ export interface Answer {
   cited_ids: number[]
   contested: boolean
 }
+
+/** Shape returned by POST /sources, before the statement is read back from the feed. */
+export interface NewStatement {
+  id: number
+  claim: string
+  rationale: string
+  referenced_entities: string[]
+  confidence: number
+  contradictions: { prior_id: number; explanation: string }[]
+  staleness_flags: { entity: string; reason: string }[]
+}

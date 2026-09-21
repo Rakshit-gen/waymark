@@ -1,0 +1,74 @@
+.form {
+  display: grid;
+  gap: 1.25rem;
+  max-width: var(--measure);
+  margin-top: 2rem;
+}
+
+.form label {
+  display: grid;
+  gap: 0.35rem;
+  font-family: var(--font-sign);
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.form input,
+.form textarea,
+.form select {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--ink-soft);
+  border-radius: 0;
+}
+
+.form textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+button {
+  justify-self: start;
+  font-family: var(--font-sign);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.03em;
+  padding: 0.55rem 1.4rem;
+  color: var(--paper-raised);
+  background: var(--blaze-blue);
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: var(--ink);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.result {
+  margin-top: 2.5rem;
+  max-width: var(--measure);
+  border-top: 2px solid var(--ink);
+  padding-top: 1rem;
+}
+
+.result ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.result li {
+  margin-bottom: 1rem;
+}
+
+.result .claim {
+  margin-bottom: 0.15rem;
+}
