@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { ask, getStatements } from '../api'
-import { formatWhen } from './Feed'
+import { formatWhen } from '../format'
 import type { Answer, Statement } from '../types'
 import './forms.css'
 import './ask.css'

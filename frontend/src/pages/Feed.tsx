@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import { getStatements } from '../api'
+import { formatWhen } from '../format'
 import type { Statement } from '../types'
 import './feed.css'
-
-export function formatWhen(iso: string) {
-  const d = new Date(iso)
-  return d.toISOString().slice(0, 16).replace('T', ' ') + 'Z'
-}
 
 function markFor(s: Statement) {
   if (s.contradictions.length > 0) return 'is-contradicted'
